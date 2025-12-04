@@ -91,14 +91,6 @@ def apply_custom_styling():
 
 apply_custom_styling()
 
-# Logo
-col1, col2, col3 = st.columns([3, 2, 3])
-with col2:
-    try:
-        st.image("d:/ADANI/Data analysis/logo.png", use_container_width=True)
-    except:
-        st.warning("Logo not found at d:/ADANI/Data analysis/logo.png")
-
 # Title
 st.title("Utthan Baseline Assessment Analysis Dashboard-Mumbai")
 
