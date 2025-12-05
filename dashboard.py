@@ -121,6 +121,10 @@ def load_data():
         if 'Medium' in df.columns:
             df['Medium'] = df['Medium'].astype(str).str.strip().str.title()
             
+        # Normalize School Name column
+        if 'School Name' in df.columns:
+            df['School Name'] = df['School Name'].astype(str).str.strip().str.title()
+            
         return df
     except Exception as e:
         st.error(f"Error loading data: {e}")
