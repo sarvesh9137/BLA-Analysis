@@ -254,8 +254,23 @@ if check_password():
         with tab2:
             st.header("Medium Wise Student Distribution")
             
+            # Filters
+            with st.expander("Filters", expanded=True):
+                col1, col2 = st.columns(2)
+                with col1:
+                    sel_ward_t2 = st.multiselect("Select Ward", options=sorted(df['Ward'].unique()), key='mw_ward')
+                with col2:
+                    sel_school_t2 = st.multiselect("Select School", options=sorted(df['School Name'].unique()), key='mw_school')
+            
+            # Apply Filters
+            df_medium = df.copy()
+            if sel_ward_t2:
+                df_medium = df_medium[df_medium['Ward'].isin(sel_ward_t2)]
+            if sel_school_t2:
+                df_medium = df_medium[df_medium['School Name'].isin(sel_school_t2)]
+
             # 1. Medium Wise Table with Percentages
-            medium_counts = df['Medium'].value_counts().reset_index()
+            medium_counts = df_medium['Medium'].value_counts().reset_index()
             medium_counts.columns = ['Medium', 'Count']
             medium_counts['Percentage'] = (medium_counts['Count'] / medium_counts['Count'].sum()) * 100
             medium_counts['Percentage'] = medium_counts['Percentage'].map('{:.2f}%'.format)
@@ -272,8 +287,23 @@ if check_password():
         with tab3:
             st.header("Class Wise Attendance Distribution")
             
+            # Filters
+            with st.expander("Filters", expanded=True):
+                col1, col2 = st.columns(2)
+                with col1:
+                    sel_ward_t3 = st.multiselect("Select Ward", options=sorted(df['Ward'].unique()), key='cw_ward')
+                with col2:
+                    sel_school_t3 = st.multiselect("Select School", options=sorted(df['School Name'].unique()), key='cw_school')
+            
+            # Apply Filters
+            df_class = df.copy()
+            if sel_ward_t3:
+                df_class = df_class[df_class['Ward'].isin(sel_ward_t3)]
+            if sel_school_t3:
+                df_class = df_class[df_class['School Name'].isin(sel_school_t3)]
+
             # 1. Class Wise Attendance Table
-            class_att_table = pd.crosstab(df['Class'], df['Attendance'], margins=True)
+            class_att_table = pd.crosstab(df_class['Class'], df_class['Attendance'], margins=True)
             # No index adjustment needed for crosstab as index is Class labels
             st.dataframe(class_att_table, use_container_width=True)
             
@@ -282,7 +312,7 @@ if check_password():
             cols = st.columns(2)
             
             for i, cls in enumerate(classes):
-                cls_df = df[df['Class'] == cls]
+                cls_df = df_class[df_class['Class'] == cls]
                 if not cls_df.empty:
                     att_counts = cls_df['Attendance'].value_counts().reset_index()
                     att_counts.columns = ['Status', 'Count']

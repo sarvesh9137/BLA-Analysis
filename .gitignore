@@ -1,0 +1,6 @@
+
+react-dashboard/
+.venv/
+__pycache__/
+~$*
+*.pyc
