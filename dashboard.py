@@ -329,18 +329,21 @@ if check_password():
             
             # Filters
             with st.expander("Filters", expanded=True):
-                f_col1, f_col2, f_col3 = st.columns(3)
+                f_col1, f_col2, f_col3, f_col4 = st.columns(4)
                 with f_col1:
                     selected_ward = st.multiselect("Select Ward", options=sorted(df['Ward'].unique()), key='ll_ward')
                 with f_col2:
                     selected_class = st.multiselect("Select Class", options=sorted(df['Class'].unique()), key='ll_class')
                 with f_col3:
                     selected_school = st.multiselect("Select School", options=sorted(df['School Name'].unique()), key='ll_school')
+                with f_col4:
+                    selected_medium = st.multiselect("Select Medium", options=sorted(df['Medium'].unique()), key='ll_medium')
                 
                 def clear_filters():
                     st.session_state.ll_ward = []
                     st.session_state.ll_class = []
                     st.session_state.ll_school = []
+                    st.session_state.ll_medium = []
                 
                 st.button("Clear Filters", on_click=clear_filters)
             
@@ -352,6 +355,8 @@ if check_password():
                 filtered_df = filtered_df[filtered_df['Class'].isin(selected_class)]
             if selected_school:
                 filtered_df = filtered_df[filtered_df['School Name'].isin(selected_school)]
+            if selected_medium:
+                filtered_df = filtered_df[filtered_df['Medium'].isin(selected_medium)]
             
             subjects = ['Reading', 'Writing', 'Numeracy']
             cols = st.columns(3)
